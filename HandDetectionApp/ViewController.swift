@@ -111,8 +111,21 @@ class ViewController: UIViewController {
          
          //2. display converted points in overlay
          cameraView.showPoints(convertedPoints, color: .red)
-
      }
+    
+    func processPointsTouching(_ fingerTips: [CGPoint?]) {
+        //process detected points, ie display detected points
+        
+        //1. convert AVFoundation Coordinates to UIKit Coordinates(by performing 'map' over AV-coordinates)
+        let previewLayer = cameraView.previewLayer
+        let convertedPoints = fingerTips
+          .compactMap {$0}
+          .compactMap {previewLayer.layerPointConverted(fromCaptureDevicePoint: $0)}
+        
+        //2. display converted points in overlay
+        cameraView.showPointsTouching(convertedPoints, color: .green)
+    }
+     
    }
 
 //make vision request from ARKit
@@ -123,15 +136,22 @@ class ViewController: UIViewController {
          //1. store finger tip points
          var thumbTip: CGPoint?
          var indexTip: CGPoint?
-         var ringTip: CGPoint?
-         var middleTip: CGPoint?
-         var littleTip: CGPoint?
+//         var ringTip: CGPoint?
+//         var middleTip: CGPoint?
+//         var littleTip: CGPoint?
          
          //5. processPoints in main thread because working with UI
          //use defer up here, so if there are no hands detected, processPoints will happen with empty values
          defer{
              DispatchQueue.main.sync {
-                 self.processPoints([thumbTip, indexTip, ringTip, middleTip, littleTip])
+//                 self.processPoints([thumbTip, indexTip, ringTip, middleTip, littleTip])
+                 self.processPoints([thumbTip, indexTip])
+                 if thumbTip != nil && indexTip != nil {
+                     var distance:CGFloat = hypot(thumbTip!.x - indexTip!.x, thumbTip!.y - indexTip!.y)
+                     if distance < 0.10 {
+                         self.processPointsTouching([thumbTip, indexTip])
+                     }
+                 }
              }
          }
          
@@ -163,9 +183,9 @@ class ViewController: UIViewController {
              //Vision origin is at bottom left, AVFoundation top left
              thumbTip = CGPoint(x: thumbTipPoint.location.x, y: 1 - thumbTipPoint.location.y)
              indexTip = CGPoint(x: indexTipPoint.location.x, y: 1 - indexTipPoint.location.y)
-             ringTip = CGPoint(x: ringTipPoint.location.x, y: 1 - ringTipPoint.location.y)
-             middleTip = CGPoint(x: middleTipPoint.location.x, y: 1 - middleTipPoint.location.y)
-             littleTip = CGPoint(x: littleTipPoint.location.x, y: 1 - littleTipPoint.location.y)
+//             ringTip = CGPoint(x: ringTipPoint.location.x, y: 1 - ringTipPoint.location.y)
+//             middleTip = CGPoint(x: middleTipPoint.location.x, y: 1 - middleTipPoint.location.y)
+//             littleTip = CGPoint(x: littleTipPoint.location.x, y: 1 - littleTipPoint.location.y)
              
          } catch{
              cameraFeedSession?.stopRunning()
