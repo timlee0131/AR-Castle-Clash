@@ -23,6 +23,7 @@ class ViewController: UIViewController {
     
     @IBOutlet weak var upperControlsView: UIView!
 
+    @IBOutlet weak var heightSlider: UISlider!
     // MARK: - UI Elements
     
     let coachingOverlay = ARCoachingOverlayView()
@@ -46,6 +47,11 @@ class ViewController: UIViewController {
         addObjectButton.isHidden = false
         
     }
+    var height_offset = Float(0.0)
+    @IBAction func setHeight(_ sender: Any) {
+        height_offset = heightSlider.value
+    }
+
     /// The view controller that displays the virtual object selection menu.
     var objectsViewController: VirtualObjectSelectionViewController?
     
@@ -113,6 +119,7 @@ class ViewController: UIViewController {
     override func viewWillAppear(_ animated: Bool){
         super.viewWillAppear(animated)
 //        self.sceneView.debugOptions = [SCNDebugOptions.showPhysicsShapes, ARSCNDebugOptions.showFeaturePoints]
+        self.sceneView.debugOptions = [SCNDebugOptions.showPhysicsShapes, ARSCNDebugOptions.showWorldOrigin]
     }
     
     override func viewWillDisappear(_ animated: Bool) {

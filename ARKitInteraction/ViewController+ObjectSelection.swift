@@ -34,6 +34,7 @@ extension ViewController: VirtualObjectSelectionViewControllerDelegate {
     func createTrackedRaycastAndSet3DPosition(of virtualObject: VirtualObject, from query: ARRaycastQuery,
                                               withInitialResult initialResult: ARRaycastResult? = nil) -> ARTrackedRaycast? {
         if let initialResult = initialResult {
+            //print("setTransformCalled")
             self.setTransform(of: virtualObject, with: initialResult)
         }
         
@@ -51,6 +52,7 @@ extension ViewController: VirtualObjectSelectionViewControllerDelegate {
             
             // If an object that's aligned to a surface is being dragged, then
             // smoothen its orientation to avoid visible jumps, and apply only the translation directly.
+//            let translation = simd_make_float3(result.worldTransform.translation.x,result.worldTransform.translation.y+0.5,result.worldTransform.translation.z)
             virtualObject.simdWorldPosition = result.worldTransform.translation
             
             let previousOrientation = virtualObject.simdWorldTransform.orientation
@@ -85,9 +87,12 @@ extension ViewController: VirtualObjectSelectionViewControllerDelegate {
     }
     
     func setTransform(of virtualObject: VirtualObject, with result: ARRaycastResult) {
+//        let translation = simd_make_float3(result.worldTransform.translation.x,result.worldTransform.translation.y+0.5,result.worldTransform.translation.z)
         virtualObject.simdWorldTransform = result.worldTransform
-        //virtualObject.physicsBody?.resetTransform()
-        //print("setTransformCalled")
+        let newTransform = virtualObject.worldPosition//virtualObject.worldPosition.y + 0.1
+        print(virtualObject.position)
+        //virtualObject.transform
+//        virtualObject.simdWorldTransform.translation = translation
     }
 
     // MARK: - VirtualObjectSelectionViewControllerDelegate

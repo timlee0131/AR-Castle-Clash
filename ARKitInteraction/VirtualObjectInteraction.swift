@@ -65,6 +65,8 @@ class VirtualObjectInteraction: NSObject, UIGestureRecognizerDelegate {
     }
     
     // MARK: - Gesture Actions
+    @IBAction func heightChanged(_ sender: Any) {
+    }
     
     @objc
     func didPan(_ gesture: ThresholdPanGesture) {
@@ -74,13 +76,18 @@ class VirtualObjectInteraction: NSObject, UIGestureRecognizerDelegate {
             if let object = objectInteracting(with: gesture, in: sceneView) {
                 trackedObject = object
                 trackedObject?.childNodes[0].physicsBody?.type = .kinematic
+                
             }
             
         case .changed where gesture.isThresholdExceeded:
             guard let object = trackedObject else { return }
+            
+            
+            
             // Move an object if the displacment threshold has been met.
             translate(object, basedOn: updatedTrackingPosition(for: object, from: gesture))
-
+            let height_add = viewController.height_offset
+            object.worldPosition.y += height_add
             gesture.setTranslation(.zero, in: sceneView)
             
         case .changed:
