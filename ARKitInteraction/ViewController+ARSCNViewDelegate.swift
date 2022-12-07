@@ -50,6 +50,7 @@ extension ViewController: ARSCNViewDelegate, ARSessionDelegate {
             node.addChildNode(plane)
             plane_added = true
         }
+    
     }
     
     func renderer(_ renderer: SCNSceneRenderer, didUpdate node: SCNNode, for anchor: ARAnchor) {
@@ -70,6 +71,7 @@ extension ViewController: ARSCNViewDelegate, ARSessionDelegate {
             // Update ARSCNPlaneGeometry to the anchor's new estimated shape.
             if let planeGeometry = plane.meshNode.geometry as? ARSCNPlaneGeometry {
                 planeGeometry.update(from: planeAnchor.geometry)
+                plane.initializePhysicsBody()
             }
 
             // Update extent visualization to the anchor's new bounding rectangle.

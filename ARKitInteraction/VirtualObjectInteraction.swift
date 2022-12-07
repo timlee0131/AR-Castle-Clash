@@ -73,6 +73,7 @@ class VirtualObjectInteraction: NSObject, UIGestureRecognizerDelegate {
             // Check for an object at the touch location.
             if let object = objectInteracting(with: gesture, in: sceneView) {
                 trackedObject = object
+                trackedObject?.childNodes[0].physicsBody?.type = .kinematic
             }
             
         case .changed where gesture.isThresholdExceeded:
@@ -90,7 +91,7 @@ class VirtualObjectInteraction: NSObject, UIGestureRecognizerDelegate {
             // Update the object's position when the user stops panning.
             guard let object = trackedObject else { break }
             setDown(object, basedOn: updatedTrackingPosition(for: object, from: gesture))
-            
+            trackedObject?.childNodes[0].physicsBody?.type = .dynamic
             fallthrough
             
         default:
@@ -106,6 +107,7 @@ class VirtualObjectInteraction: NSObject, UIGestureRecognizerDelegate {
         let currentPosition = currentTrackingPosition ?? CGPoint(sceneView.projectPoint(object.position))
         let updatedPosition = CGPoint(x: currentPosition.x + translation.x, y: currentPosition.y + translation.y)
         currentTrackingPosition = updatedPosition
+        print("updatetracking")
         return updatedPosition
     }
 

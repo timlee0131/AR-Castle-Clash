@@ -44,9 +44,8 @@ class ViewController: UIViewController {
         //planeLockBtn.isEnabled = false
         planeLockBtn.isHidden = true
         addObjectButton.isHidden = false
+        
     }
-    
-    
     /// The view controller that displays the virtual object selection menu.
     var objectsViewController: VirtualObjectSelectionViewController?
     
@@ -109,6 +108,11 @@ class ViewController: UIViewController {
     
     override var prefersHomeIndicatorAutoHidden: Bool {
         return true
+    }
+    
+    override func viewWillAppear(_ animated: Bool){
+        super.viewWillAppear(animated)
+//        self.sceneView.debugOptions = [SCNDebugOptions.showPhysicsShapes, ARSCNDebugOptions.showFeaturePoints]
     }
     
     override func viewWillDisappear(_ animated: Bool) {

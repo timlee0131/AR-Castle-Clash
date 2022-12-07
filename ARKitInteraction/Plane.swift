@@ -56,6 +56,18 @@ class Plane: SCNNode {
         fatalError("init(coder:) has not been implemented")
     }
     
+    func initializePhysicsBody(){
+        let physics = SCNPhysicsBody(type: .kinematic,
+                                     shape:SCNPhysicsShape(geometry: extentNode.geometry!, options:nil))
+        physics.friction = 1
+        physics.restitution = 1
+        // setup so that it can collide with the goal
+        physics.categoryBitMask  = 0xFFFF
+        physics.collisionBitMask = 0xFFFF
+        physics.contactTestBitMask  = 0xFFFF
+        extentNode.physicsBody = physics
+    }
+    
     private func setupMeshVisualStyle() {
         // Make the plane visualization semitransparent to clearly show real-world placement.
         meshNode.opacity = 0.25
@@ -100,4 +112,6 @@ class Plane: SCNNode {
         
         return textNode
     }
+    
+    
 }

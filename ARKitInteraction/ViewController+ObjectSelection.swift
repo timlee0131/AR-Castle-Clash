@@ -86,6 +86,8 @@ extension ViewController: VirtualObjectSelectionViewControllerDelegate {
     
     func setTransform(of virtualObject: VirtualObject, with result: ARRaycastResult) {
         virtualObject.simdWorldTransform = result.worldTransform
+        //virtualObject.physicsBody?.resetTransform()
+        //print("setTransformCalled")
     }
 
     // MARK: - VirtualObjectSelectionViewControllerDelegate
