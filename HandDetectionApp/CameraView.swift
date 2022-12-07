@@ -6,9 +6,10 @@
 //
 
 import UIKit
+import ARKit
 import AVFoundation
 
-class CameraView: UIView {
+class CameraView: ARSCNView {
     
     /*
      // Only override draw() if you perform custom drawing.

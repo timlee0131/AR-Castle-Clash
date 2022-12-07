@@ -8,6 +8,7 @@
 import UIKit
 import AVFoundation
 import Vision
+import ARKit
 
 class ViewController: UIViewController {
     //class to detect hand landmarks using front camera
