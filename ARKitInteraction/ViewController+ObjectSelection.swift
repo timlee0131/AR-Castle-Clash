@@ -105,6 +105,7 @@ extension ViewController: VirtualObjectSelectionViewControllerDelegate {
                 self.sceneView.prepare([scene], completionHandler: { _ in
                     DispatchQueue.main.async {
                         self.hideObjectLoadingUI()
+                        //print("placing Virtual Object")
                         self.placeVirtualObject(loadedObject)
                     }
                 })

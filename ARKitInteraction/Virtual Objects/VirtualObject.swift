@@ -68,7 +68,7 @@ extension VirtualObject {
     // MARK: Static Properties and Methods
     /// Loads all the model objects within `Models.scnassets`.
     static let availableObjects: [VirtualObject] = {
-        let modelsURL = Bundle.main.url(forResource: "Models.scnassets", withExtension: nil)!
+        let modelsURL = Bundle.main.url(forResource: "ScnModels.scnassets", withExtension: nil)!
 
         let fileEnumerator = FileManager().enumerator(at: modelsURL, includingPropertiesForKeys: [])!
 
