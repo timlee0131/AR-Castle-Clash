@@ -9,6 +9,7 @@ import ARKit
 import SceneKit
 import UIKit
 
+@available(iOS 14.0, *)
 class ViewController: UIViewController {
     
     // MARK: IBOutlets
@@ -74,11 +75,13 @@ class ViewController: UIViewController {
         return sceneView.session
     }
     
-    // MARK: - View Controller Life Cycle
+    // hand gesture stuff
+    var currentBuffer: CVPixelBuffer?
+    var handPoseRequest = VNDetectHumanHandPoseRequest()
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+        handPoseRequest.maximumHandCount = 1
         //disable addObjBtn
         addObjectButton.isHidden = true
         

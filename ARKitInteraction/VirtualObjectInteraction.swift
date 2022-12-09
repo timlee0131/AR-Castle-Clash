@@ -114,7 +114,6 @@ class VirtualObjectInteraction: NSObject, UIGestureRecognizerDelegate {
         let currentPosition = currentTrackingPosition ?? CGPoint(sceneView.projectPoint(object.position))
         let updatedPosition = CGPoint(x: currentPosition.x + translation.x, y: currentPosition.y + translation.y)
         currentTrackingPosition = updatedPosition
-        print("updatetracking")
         return updatedPosition
     }
 
@@ -163,7 +162,7 @@ class VirtualObjectInteraction: NSObject, UIGestureRecognizerDelegate {
     private func objectInteracting(with gesture: UIGestureRecognizer, in view: ARSCNView) -> VirtualObject? {
         for index in 0..<gesture.numberOfTouches {
             let touchLocation = gesture.location(ofTouch: index, in: view)
-            
+            print(touchLocation)
             // Look for an object directly under the `touchLocation`.
             if let object = sceneView.virtualObject(at: touchLocation) {
                 return object

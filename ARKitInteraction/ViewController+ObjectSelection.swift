@@ -90,7 +90,6 @@ extension ViewController: VirtualObjectSelectionViewControllerDelegate {
 //        let translation = simd_make_float3(result.worldTransform.translation.x,result.worldTransform.translation.y+0.5,result.worldTransform.translation.z)
         virtualObject.simdWorldTransform = result.worldTransform
         let newTransform = virtualObject.worldPosition//virtualObject.worldPosition.y + 0.1
-        print(virtualObject.position)
         //virtualObject.transform
 //        virtualObject.simdWorldTransform.translation = translation
     }
