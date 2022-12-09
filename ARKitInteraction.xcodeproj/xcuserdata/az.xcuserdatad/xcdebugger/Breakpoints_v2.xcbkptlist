@@ -46,8 +46,8 @@
             filePath = "ARKitInteraction/ViewController+ObjectSelection.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "97"
-            endingLineNumber = "97"
+            startingLineNumber = "95"
+            endingLineNumber = "95"
             landmarkName = "setTransform(of:with:)"
             landmarkType = "7">
          </BreakpointContent>

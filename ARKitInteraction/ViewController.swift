@@ -40,7 +40,7 @@ class ViewController: UIViewController {
     @IBOutlet weak var planeLockBtn: UIButton!
     var plane_locked = false
     var plane_added = false
-    
+    var groundHeight = 0.0
     @IBAction func PlaneLock(_ sender: Any) {
         plane_locked = true
         //planeLockBtn.isEnabled = false

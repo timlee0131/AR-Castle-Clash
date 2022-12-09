@@ -67,7 +67,7 @@ extension ViewController: ARSCNViewDelegate, ARSessionDelegate {
             guard let planeAnchor = anchor as? ARPlaneAnchor,
                   let plane = node.childNodes.first as? Plane
             else { return }
-            
+            groundHeight = Double(plane.worldPosition.y)
             // Update ARSCNPlaneGeometry to the anchor's new estimated shape.
             if let planeGeometry = plane.meshNode.geometry as? ARSCNPlaneGeometry {
                 planeGeometry.update(from: planeAnchor.geometry)
@@ -127,7 +127,7 @@ extension ViewController: ARSCNViewDelegate, ARSessionDelegate {
                         }
                     }else{
                         virtualObjectInteraction.translate(lastObjectPinched!, basedOn: point)
-                        lastObjectPinched!.childNodes[0].worldPosition.y = height_offset
+                        lastObjectPinched!.childNodes[0].worldPosition.y =  Float(groundHeight)+height_offset+lastObjectPinched!.childNodes[0].scale.y/2
                     }
                     
                 }else{
