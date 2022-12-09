@@ -1,0 +1,17 @@
+{
+  "info" : {
+    "author" : "xcode",
+    "version" : 1
+  },
+  "resources" : [
+    {
+      "filename" : "cannonfire.arreferenceimage"
+    },
+    {
+      "filename" : "castle1.arreferenceimage"
+    },
+    {
+      "filename" : "castle2.arreferenceimage"
+    }
+  ]
+}
