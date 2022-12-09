@@ -5,6 +5,8 @@
 //  Created by zhongyuan liu on 12/7/22.
 //
 
+//THIS CLASS IS NO LONGER IN USE
+
 import UIKit
 
 class CollectionCell: UICollectionViewCell {
