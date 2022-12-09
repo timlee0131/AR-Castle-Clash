@@ -5,9 +5,8 @@
 //  Created by zhongyuan liu on 12/7/22.
 //
 
-//1...10 FIRST FUNCTION SET: setup ARKit session to implement image tracking, plane recognition, placement of custom images(from collection view)
+//1...10 FIRST FUNCTION SET: (most removed)setup ARKit session to implement image tracking, plane recognition, placement of custom images(from collection view)
 //A...Z SECOND FUNCTION SET: add, delete, move around nodes without using AR session(scene delegate, session delegate)
-
 //a...z: THIRD FUNCTION SET: integrate coreML, vision, and AR: use Vision (algorithms) to classify elements of image frames, AR classifies elements in video frames for real-time feedback
 
 
