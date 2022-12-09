@@ -1,9 +1,9 @@
 /*
-See LICENSE folder for this sample’s licensing information.
-
-Abstract:
-ARSCNViewDelegate interactions for `ViewController`.
-*/
+ See LICENSE folder for this sample’s licensing information.
+ 
+ Abstract:
+ ARSCNViewDelegate interactions for `ViewController`.
+ */
 
 import ARKit
 import SceneKit
@@ -50,7 +50,7 @@ extension ViewController: ARSCNViewDelegate, ARSessionDelegate {
             node.addChildNode(plane)
             plane_added = true
         }
-    
+        
     }
     
     func renderer(_ renderer: SCNSceneRenderer, didUpdate node: SCNNode, for anchor: ARAnchor) {
@@ -65,15 +65,15 @@ extension ViewController: ARSCNViewDelegate, ARSessionDelegate {
             /// plane visualize
             // Update only anchors and nodes set up by `renderer(_:didAdd:for:)`.
             guard let planeAnchor = anchor as? ARPlaneAnchor,
-                let plane = node.childNodes.first as? Plane
-                else { return }
+                  let plane = node.childNodes.first as? Plane
+            else { return }
             
             // Update ARSCNPlaneGeometry to the anchor's new estimated shape.
             if let planeGeometry = plane.meshNode.geometry as? ARSCNPlaneGeometry {
                 planeGeometry.update(from: planeAnchor.geometry)
                 plane.initializePhysicsBody()
             }
-
+            
             // Update extent visualization to the anchor's new bounding rectangle.
             if let extentGeometry = plane.extentNode.geometry as? SCNPlane {
                 extentGeometry.width = CGFloat(planeAnchor.extent.x)
@@ -85,9 +85,9 @@ extension ViewController: ARSCNViewDelegate, ARSessionDelegate {
     }
     
     func session(_ session: ARSession, didUpdate frame: ARFrame) {
-//        guard currentBuffer == nil, case .normal = frame.camera.trackingState else {
-//            return
-//        }
+        //        guard currentBuffer == nil, case .normal = frame.camera.trackingState else {
+        //            return
+        //        }
         
         // retain the image buffer for vision processing
         currentBuffer = frame.capturedImage
@@ -103,32 +103,42 @@ extension ViewController: ARSCNViewDelegate, ARSessionDelegate {
         var formatDesc: CMFormatDescription? = nil
         CMVideoFormatDescriptionCreateForImageBuffer(allocator: kCFAllocatorDefault, imageBuffer: currentBuffer!, formatDescriptionOut: &formatDesc)
         var sampleBuffer: CMSampleBuffer? = nil
-
+        
         CMSampleBufferCreateReadyWithImageBuffer(allocator: kCFAllocatorDefault, imageBuffer: currentBuffer!, formatDescription: formatDesc!, sampleTiming: &info, sampleBufferOut: &sampleBuffer)
         
         var thumbTip: CGPoint?
         var indexTip: CGPoint?
         
-        defer{
-            DispatchQueue.main.async { [self] in
-                if thumbTip != nil && indexTip != nil {
-                    var distance:CGFloat = hypot(thumbTip!.x - indexTip!.x, thumbTip!.y - indexTip!.y)
-                    if distance < 0.10 {
-//                        self.processPointsTouching([thumbTip, indexTip])
-                        //print("pinch")
-                        thumbTip!.y = 1-thumbTip!.y
-                        var newPoint:CGPoint = CGPoint(x:thumbTip!.y,y:thumbTip!.x)
-                        let point = VNImagePointForNormalizedPoint(newPoint, Int(sceneView.frame.size.width), Int(sceneView.frame.size.height))
-                        print(point)
-                        
+        DispatchQueue.main.async { [self] in
+            if thumbTip != nil && indexTip != nil {
+                var distance:CGFloat = hypot(thumbTip!.x - indexTip!.x, thumbTip!.y - indexTip!.y)
+                
+                //if pinch
+                if distance < 0.10 {
+                    indexTip!.y = 1-indexTip!.y
+                    var newPoint:CGPoint = CGPoint(x:indexTip!.y,y:indexTip!.x)
+                    let point = VNImagePointForNormalizedPoint(newPoint, Int(sceneView.frame.size.width), Int(sceneView.frame.size.height))
+                    //if moving object with pinch
+                    if lastObjectPinched == nil{
                         if let object = self.sceneView.virtualObject(at: point) {
-                                print("object pinched")
-                                object.childNodes[0].physicsBody?.type = .kinematic
+                            //print("object pinched")
+                            object.childNodes[0].physicsBody?.type = .kinematic
+                            lastObjectPinched = object
                         }
                     }else{
-                        //print("no pinch")
+                        virtualObjectInteraction.translate(lastObjectPinched!, basedOn: point)
+                        lastObjectPinched!.childNodes[0].worldPosition.y = height_offset
+                    }
+                    
+                }else{
+                    if lastObjectPinched != nil{
+                        print("Unpinched")
+                        lastObjectPinched!.childNodes[0].physicsBody?.type = .dynamic
+                        lastObjectPinched = nil
                     }
                 }
+                
+                
             }
         }
         
@@ -162,11 +172,11 @@ extension ViewController: ARSCNViewDelegate, ARSessionDelegate {
             showVirtualContent()
         }
     }
-
+    
     func showVirtualContent() {
         virtualObjectLoader.loadedObjects.forEach { $0.isHidden = false }
     }
-
+    
     func session(_ session: ARSession, didFailWithError error: Error) {
         guard error is ARError else { return }
         
@@ -193,7 +203,7 @@ extension ViewController: ARSCNViewDelegate, ARSessionDelegate {
     func hideVirtualContent() {
         virtualObjectLoader.loadedObjects.forEach { $0.isHidden = true }
     }
-
+    
     /*
      Allow the session to attempt to resume after an interruption.
      This process may not succeed, so the app must be prepared

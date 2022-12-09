@@ -78,7 +78,7 @@ class ViewController: UIViewController {
     // hand gesture stuff
     var currentBuffer: CVPixelBuffer?
     var handPoseRequest = VNDetectHumanHandPoseRequest()
-    
+    var lastObjectPinched:VirtualObject?
     override func viewDidLoad() {
         super.viewDidLoad()
         handPoseRequest.maximumHandCount = 1

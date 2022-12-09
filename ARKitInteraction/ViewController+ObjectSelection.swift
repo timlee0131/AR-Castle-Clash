@@ -73,10 +73,13 @@ extension ViewController: VirtualObjectSelectionViewControllerDelegate {
         self.setTransform(of: virtualObject, with: result)
         
         // If the virtual object is not yet in the scene, add it.
-        if virtualObject.parent == nil {
-            self.sceneView.scene.rootNode.addChildNode(virtualObject)
-            virtualObject.shouldUpdateAnchor = true
-        }
+        self.sceneView.scene.rootNode.addChildNode(virtualObject)
+        
+        virtualObject.shouldUpdateAnchor = true
+//        if virtualObject.parent == nil {
+//            self.sceneView.scene.rootNode.addChildNode(virtualObject)
+//            virtualObject.shouldUpdateAnchor = true
+//        }
         
         if virtualObject.shouldUpdateAnchor {
             virtualObject.shouldUpdateAnchor = false

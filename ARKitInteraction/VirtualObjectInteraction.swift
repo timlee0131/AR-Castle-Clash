@@ -76,7 +76,7 @@ class VirtualObjectInteraction: NSObject, UIGestureRecognizerDelegate {
             if let object = objectInteracting(with: gesture, in: sceneView) {
                 trackedObject = object
                 trackedObject?.childNodes[0].physicsBody?.type = .kinematic
-                
+                object.worldPosition.y += 0.1
             }
             
         case .changed where gesture.isThresholdExceeded:
