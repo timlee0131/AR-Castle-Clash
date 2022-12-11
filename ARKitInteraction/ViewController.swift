@@ -119,7 +119,7 @@ class ViewController: UIViewController {
     override func viewWillAppear(_ animated: Bool){
         super.viewWillAppear(animated)
 //        self.sceneView.debugOptions = [SCNDebugOptions.showPhysicsShapes, ARSCNDebugOptions.showFeaturePoints]
-        self.sceneView.debugOptions = [SCNDebugOptions.showPhysicsShapes, ARSCNDebugOptions.showWorldOrigin]
+        self.sceneView.debugOptions = [SCNDebugOptions.showPhysicsShapes]
     }
     
     override func viewWillDisappear(_ animated: Bool) {

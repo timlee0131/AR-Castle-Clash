@@ -70,23 +70,24 @@ class Plane: SCNNode {
     
     private func setupMeshVisualStyle() {
         // Make the plane visualization semitransparent to clearly show real-world placement.
-        meshNode.opacity = 0.25
+        meshNode.opacity = 0.90
         
         // Use color and blend mode to make planes stand out.
         guard let material = meshNode.geometry?.firstMaterial
             else { fatalError("ARSCNPlaneGeometry always has one material") }
-        material.diffuse.contents = UIColor.planeColor
+        material.diffuse.contents = UIImage(named: "chaotic_grass.png")//UIColor.planeColor
+        material.diffuse.wrapS = SCNWrapMode.repeat
+        material.diffuse.wrapT = SCNWrapMode.repeat
     }
     
     private func setupExtentVisualStyle() {
         // Make the extent visualization semitransparent to clearly show real-world placement.
-        extentNode.opacity = 0.6
-
+        extentNode.opacity = 1.0
         guard let material = extentNode.geometry?.firstMaterial
             else { fatalError("SCNPlane always has one material") }
-        
-        material.diffuse.contents = UIColor.planeColor
-
+        material.diffuse.contents = UIColor.black
+        //material.diffuse.wrapS = SCNWrapMode.repeat
+        //material.diffuse.wrapT = SCNWrapMode.repeat
         // Use a SceneKit shader modifier to render only the borders of the plane.
         guard let path = Bundle.main.path(forResource: "wireframe_shader", ofType: "metal", inDirectory: "ScnAssets.scnassets")
             else { fatalError("Can't find wireframe shader")

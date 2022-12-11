@@ -163,7 +163,10 @@ class VirtualObjectInteraction: NSObject, UIGestureRecognizerDelegate {
     private func objectInteracting(with gesture: UIGestureRecognizer, in view: ARSCNView) -> VirtualObject? {
         for index in 0..<gesture.numberOfTouches {
             let touchLocation = gesture.location(ofTouch: index, in: view)
+<<<<<<< Updated upstream
             
+=======
+>>>>>>> Stashed changes
             // Look for an object directly under the `touchLocation`.
             if let object = sceneView.virtualObject(at: touchLocation) {
                 return object

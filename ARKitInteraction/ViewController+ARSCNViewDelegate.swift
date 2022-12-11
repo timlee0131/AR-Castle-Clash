@@ -84,10 +84,90 @@ extension ViewController: ARSCNViewDelegate, ARSessionDelegate {
         
     }
     
+<<<<<<< Updated upstream
 
 
     
     
+=======
+    func session(_ session: ARSession, didUpdate frame: ARFrame) {
+        //        guard currentBuffer == nil, case .normal = frame.camera.trackingState else {
+        //            return
+        //        }
+        
+        // retain the image buffer for vision processing
+        currentBuffer = frame.capturedImage
+        if currentBuffer == nil {
+            print("nil")
+            return
+        }
+        
+        var info = CMSampleTimingInfo()
+        info.presentationTimeStamp = CMTime.zero
+        info.duration = CMTime.invalid
+        info.decodeTimeStamp = CMTime.invalid
+        var formatDesc: CMFormatDescription? = nil
+        CMVideoFormatDescriptionCreateForImageBuffer(allocator: kCFAllocatorDefault, imageBuffer: currentBuffer!, formatDescriptionOut: &formatDesc)
+        var sampleBuffer: CMSampleBuffer? = nil
+        
+        CMSampleBufferCreateReadyWithImageBuffer(allocator: kCFAllocatorDefault, imageBuffer: currentBuffer!, formatDescription: formatDesc!, sampleTiming: &info, sampleBufferOut: &sampleBuffer)
+        
+        var thumbTip: CGPoint?
+        var indexTip: CGPoint?
+        
+        DispatchQueue.main.async { [self] in
+            if thumbTip != nil && indexTip != nil {
+                var distance:CGFloat = hypot(thumbTip!.x - indexTip!.x, thumbTip!.y - indexTip!.y)
+                
+                //if pinch
+                if distance < 0.07 {
+                    indexTip!.y = 1-indexTip!.y
+                    var newPoint:CGPoint = CGPoint(x:indexTip!.y,y:indexTip!.x)
+                    let point = VNImagePointForNormalizedPoint(newPoint, Int(sceneView.frame.size.width), Int(sceneView.frame.size.height))
+                    //if moving object with pinch
+                    if lastObjectPinched == nil{
+                        if let object = self.sceneView.virtualObject(at: point) {
+                            //print("object pinched")
+                            object.childNodes[0].physicsBody?.type = .kinematic
+                            lastObjectPinched = object
+                        }
+                    }else{
+                        virtualObjectInteraction.translate(lastObjectPinched!, basedOn: point)
+                        lastObjectPinched!.childNodes[0].worldPosition.y =  Float(groundHeight)+height_offset+lastObjectPinched!.childNodes[0].scale.y/2
+                    }
+                    
+                }else{
+                    if lastObjectPinched != nil{
+                        lastObjectPinched!.childNodes[0].physicsBody?.type = .dynamic
+                        lastObjectPinched!.childNodes[0].physicsBody?.velocity = SCNVector3(x:0,y:0,z:0)
+                        lastObjectPinched = nil
+                    }
+                }
+                
+                
+            }
+        }
+        
+        if let sampleBuffer = sampleBuffer {
+            let handler = VNImageRequestHandler(cmSampleBuffer: sampleBuffer, orientation: .up, options: [:])
+            do {
+                try handler.perform([handPoseRequest])
+                guard let observation = handPoseRequest.results?.first else{return}
+                
+                let thumbPoints = try observation.recognizedPoints(.thumb)
+                let indexFingerPoints = try observation.recognizedPoints(.indexFinger)
+                guard let indexTipPoint = indexFingerPoints[.indexTip],
+                      let thumbTipPoint = thumbPoints[.thumbTip]
+                else {return}
+                
+                thumbTip = CGPoint(x: thumbTipPoint.location.x, y: 1 - thumbTipPoint.location.y)
+                indexTip = CGPoint(x: indexTipPoint.location.x, y: 1 - indexTipPoint.location.y)
+            } catch {
+                return
+            }
+        }
+    }
+>>>>>>> Stashed changes
     /// - Tag: ShowVirtualContent
     func session(_ session: ARSession, cameraDidChangeTrackingState camera: ARCamera) {
         statusViewController.showTrackingQualityInfo(for: camera.trackingState, autoHide: true)
