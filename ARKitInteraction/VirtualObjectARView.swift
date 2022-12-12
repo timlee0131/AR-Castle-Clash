@@ -22,6 +22,14 @@ class VirtualObjectARView: ARSCNView {
         }.first
     }
     
+    func node(at point: CGPoint) -> SCNNode?{
+        let hitTestOptions: [SCNHitTestOption: Any] = [.boundingBoxOnly: true]
+        let hitTestResults = hitTest(point, options: hitTestOptions)
+        return hitTestResults.lazy.compactMap {
+            result in return result.node
+        }.first
+    }
+    
     // - MARK: Object anchors
     /// - Tag: AddOrUpdateAnchor
     func addOrUpdateAnchor(for object: VirtualObject) {

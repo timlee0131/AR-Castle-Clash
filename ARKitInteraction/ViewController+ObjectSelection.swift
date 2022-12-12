@@ -76,7 +76,7 @@ extension ViewController: VirtualObjectSelectionViewControllerDelegate {
         if virtualObject.parent == nil {
             self.sceneView.scene.rootNode.addChildNode(virtualObject)
             virtualObject.shouldUpdateAnchor = true
-            virtualObject.childNodes[0].worldPosition.y += 0.1
+            virtualObject.childNodes[0].worldPosition.y += 0.03
         }
         
         if virtualObject.shouldUpdateAnchor {

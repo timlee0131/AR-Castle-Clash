@@ -14,6 +14,7 @@
 		236D4160293E98CB00E34490 /* Plane.swift in Sources */ = {isa = PBXBuildFile; fileRef = 236D415F293E98CB00E34490 /* Plane.swift */; };
 		236D4162293EA19700E34490 /* ScnAssets.scnassets in Resources */ = {isa = PBXBuildFile; fileRef = 236D4161293EA19700E34490 /* ScnAssets.scnassets */; };
 		238E19692941556B00CEFC95 /* ScnModels.scnassets in Resources */ = {isa = PBXBuildFile; fileRef = 238E19682941556B00CEFC95 /* ScnModels.scnassets */; };
+		238E196D2946B1FC00CEFC95 /* ScnModelsUpdated.scnassets in Resources */ = {isa = PBXBuildFile; fileRef = 238E196C2946B1FC00CEFC95 /* ScnModelsUpdated.scnassets */; };
 		3929C48C1E89EC2C00E00B60 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3929C48B1E89EC2C00E00B60 /* AppDelegate.swift */; };
 		3929C48E1E89EC2C00E00B60 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3929C48D1E89EC2C00E00B60 /* ViewController.swift */; };
 		3929C4911E89EC2C00E00B60 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 3929C48F1E89EC2C00E00B60 /* Main.storyboard */; };
@@ -42,6 +43,7 @@
 		236D415F293E98CB00E34490 /* Plane.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Plane.swift; sourceTree = "<group>"; };
 		236D4161293EA19700E34490 /* ScnAssets.scnassets */ = {isa = PBXFileReference; lastKnownFileType = wrapper.scnassets; path = ScnAssets.scnassets; sourceTree = "<group>"; };
 		238E19682941556B00CEFC95 /* ScnModels.scnassets */ = {isa = PBXFileReference; lastKnownFileType = wrapper.scnassets; path = ScnModels.scnassets; sourceTree = "<group>"; };
+		238E196C2946B1FC00CEFC95 /* ScnModelsUpdated.scnassets */ = {isa = PBXFileReference; lastKnownFileType = wrapper.scnassets; path = ScnModelsUpdated.scnassets; sourceTree = "<group>"; };
 		3929C4881E89EC2C00E00B60 /* ARKitInteraction.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ARKitInteraction.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		3929C48B1E89EC2C00E00B60 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		3929C48D1E89EC2C00E00B60 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -103,6 +105,7 @@
 		1488324C1EFC3ED00043E0AB /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				238E196C2946B1FC00CEFC95 /* ScnModelsUpdated.scnassets */,
 				3929C49E1E89EE4400E00B60 /* Models.scnassets */,
 				3929C4921E89EC2C00E00B60 /* Assets.xcassets */,
 				3929C4971E89EC2C00E00B60 /* Info.plist */,
@@ -247,6 +250,7 @@
 				3929C4931E89EC2C00E00B60 /* Assets.xcassets in Resources */,
 				238E19692941556B00CEFC95 /* ScnModels.scnassets in Resources */,
 				3929C4911E89EC2C00E00B60 /* Main.storyboard in Resources */,
+				238E196D2946B1FC00CEFC95 /* ScnModelsUpdated.scnassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

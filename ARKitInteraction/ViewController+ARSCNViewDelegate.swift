@@ -134,6 +134,7 @@ extension ViewController: ARSCNViewDelegate, ARSessionDelegate {
                     if lastObjectPinched != nil{
                         print("Unpinched")
                         lastObjectPinched!.childNodes[0].physicsBody?.type = .dynamic
+                        lastObjectPinched!.childNodes[0].physicsBody?.velocity = SCNVector3(x:0, y:0, z:0)
                         lastObjectPinched = nil
                     }
                 }
