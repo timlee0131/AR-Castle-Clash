@@ -83,7 +83,7 @@ class Plane: SCNNode {
     private func setupExtentVisualStyle() {
         // Make the extent visualization semitransparent to clearly show real-world placement.
         extentNode.opacity = 1.0
-
+        
         guard let material = extentNode.geometry?.firstMaterial
             else { fatalError("SCNPlane always has one material") }
         

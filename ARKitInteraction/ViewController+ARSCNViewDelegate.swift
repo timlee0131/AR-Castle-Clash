@@ -10,24 +10,21 @@ import SceneKit
 
 extension ViewController: ARSCNViewDelegate, ARSessionDelegate {
     
-    // MARK: - ARSCNViewDelegate
-    
+//  UPDATING SCENE EVERY FRAME/TIME INTERVAL
     func renderer(_ renderer: SCNSceneRenderer, updateAtTime time: TimeInterval) {
         
         let isAnyObjectInView = virtualObjectLoader.loadedObjects.contains { object in
             return sceneView.isNode(object, insideFrustumOf: sceneView.pointOfView!)
         }
-        
         DispatchQueue.main.async {
             self.updateFocusSquare(isObjectVisible: isAnyObjectInView)
-            
             // If the object selection menu is open, update availability of items
             if self.objectsViewController?.viewIfLoaded?.window != nil {
                 self.objectsViewController?.updateObjectAvailability()
             }
         }
     }
-    
+//    DIDADD ANCHOR/ PLANE
     func renderer(_ renderer: SCNSceneRenderer, didAdd node: SCNNode, for anchor: ARAnchor) {
         guard anchor is ARPlaneAnchor else { return }
         DispatchQueue.main.async {
@@ -38,21 +35,14 @@ extension ViewController: ARSCNViewDelegate, ARSessionDelegate {
             }
         }
         if(!plane_added){
-            /// plane visualize
             // Place content only for anchors found by plane detection.
             guard let planeAnchor = anchor as? ARPlaneAnchor else { return }
-            
-            // Create a custom object to visualize the plane geometry and extent.
             let plane = Plane(anchor: planeAnchor, in: sceneView)
-            
-            // Add the visualization to the ARKit-managed node so that it tracks
-            // changes in the plane anchor as plane estimation continues.
             node.addChildNode(plane)
             plane_added = true
         }
-        
     }
-    
+//  UPDATED PLANE
     func renderer(_ renderer: SCNSceneRenderer, didUpdate node: SCNNode, for anchor: ARAnchor) {
         updateQueue.async {
             if let objectAtAnchor = self.virtualObjectLoader.loadedObjects.first(where: { $0.anchor == anchor }) {
@@ -73,9 +63,7 @@ extension ViewController: ARSCNViewDelegate, ARSessionDelegate {
                 planeGeometry.update(from: planeAnchor.geometry)
                 plane.initializePhysicsBody()
             }
-            
-            // Update extent visualization to the anchor's new bounding rectangle.
-            if let extentGeometry = plane.extentNode.geometry as? SCNPlane {
+                if let extentGeometry = plane.extentNode.geometry as? SCNPlane {
                 extentGeometry.width = CGFloat(planeAnchor.extent.x)
                 extentGeometry.height = CGFloat(planeAnchor.extent.z)
                 plane.extentNode.simdPosition = planeAnchor.center
@@ -85,11 +73,6 @@ extension ViewController: ARSCNViewDelegate, ARSessionDelegate {
     }
     
     func session(_ session: ARSession, didUpdate frame: ARFrame) {
-        //        guard currentBuffer == nil, case .normal = frame.camera.trackingState else {
-        //            return
-        //        }
-        
-        // retain the image buffer for vision processing
         currentBuffer = frame.capturedImage
         if currentBuffer == nil {
             print("nil")

@@ -11,32 +11,24 @@ import UIKit
 
 @available(iOS 14.0, *)
 class ViewController: UIViewController {
-    
-    // MARK: IBOutlets
-    
+//    UI ELEMENTS
     @IBOutlet var sceneView: VirtualObjectARView!
-    
     @IBOutlet weak var addObjectButton: UIButton!
-    
     @IBOutlet weak var blurView: UIVisualEffectView!
-    
     @IBOutlet weak var spinner: UIActivityIndicatorView!
-    
     @IBOutlet weak var upperControlsView: UIView!
-
-    @IBOutlet weak var heightSlider: UISlider!
-    // MARK: - UI Elements
-    
+    @IBOutlet weak var heightSlider: UISlider!{
+        didSet{
+            heightSlider.transform = CGAffineTransform(rotationAngle: -Double.pi/2)
+        }
+    }
     let coachingOverlay = ARCoachingOverlayView()
-    
     var focusSquare = FocusSquare()
-    
-    /// The view controller that displays the status and "restart experience" UI.
+//    STATUS: DETECTED SURFACE
     lazy var statusViewController: StatusViewController = {
         return children.lazy.compactMap({ $0 as? StatusViewController }).first!
     }()
-    
-    //button to setup plane
+//    MORE UI ELEMENTS, FOR PLANE
     @IBOutlet weak var planeLockBtn: UIButton!
     var plane_locked = false
     var plane_added = false
@@ -53,24 +45,23 @@ class ViewController: UIViewController {
         height_offset = heightSlider.value
     }
 
-    /// The view controller that displays the virtual object selection menu.
+
+//    MENU ITEMS FOR LEGO PIECES
     var objectsViewController: VirtualObjectSelectionViewController?
     
-    // MARK: - ARKit Configuration Properties
-    
-    /// A type which manages gesture manipulation of virtual content in the scene.
+//  GESTURE MANIPULATION
     lazy var virtualObjectInteraction = VirtualObjectInteraction(sceneView: sceneView, viewController: self)
     
-    /// Coordinates the loading and unloading of reference nodes for virtual objects.
+//  LOAD VIRTUAL OBJECTS TO WORLD
     let virtualObjectLoader = VirtualObjectLoader()
     
-    /// Marks if the AR experience is available for restart.
+//  RESTART AVAILABLE IF LOST FOCUS OF PLANE
     var isRestartAvailable = true
     
-    /// A serial queue used to coordinate adding or removing nodes from the scene.
+//  QUEUE TO ADD/REMOVE NODES FROM SCENE
     let updateQueue = DispatchQueue(label: "com.example.apple-samplecode.arkitexample.serialSceneKitQueue")
     
-    /// Convenience accessor for the session owned by ARSCNView.
+//  RETURN SCENEVIEW SESSION
     var session: ARSession {
         return sceneView.session
     }
@@ -82,36 +73,27 @@ class ViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         handPoseRequest.maximumHandCount = 1
-        //disable addObjBtn
         addObjectButton.isHidden = true
         
         sceneView.delegate = self
         sceneView.session.delegate = self
-        
-        // Set up coaching overlay.
         setupCoachingOverlay()
-
-        // Set up scene content.
         sceneView.scene.rootNode.addChildNode(focusSquare)
 
-        // Hook up status view controller callback(s).
+//      RESTART GAME IF BUTTON PRESSED
         statusViewController.restartExperienceHandler = { [unowned self] in
             self.restartExperience()
         }
-        
+//      SET UP TAP GESTURE RECOGNIZER
         let tapGesture = UITapGestureRecognizer(target: self, action: #selector(showVirtualObjectSelectionViewController))
-        // Set the delegate to ensure this gesture is only used when there are no virtual objects in the scene.
         tapGesture.delegate = self
         sceneView.addGestureRecognizer(tapGesture)
     }
 
+//    CONFIGURATION STUFF
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
-        
-        // Prevent the screen from being dimmed to avoid interuppting the AR experience.
         UIApplication.shared.isIdleTimerDisabled = true
-
-        // Start the `ARSession`.
         resetTracking()
     }
     
@@ -121,40 +103,33 @@ class ViewController: UIViewController {
     
     override func viewWillAppear(_ animated: Bool){
         super.viewWillAppear(animated)
-//        self.sceneView.debugOptions = [SCNDebugOptions.showPhysicsShapes, ARSCNDebugOptions.showFeaturePoints]
         self.sceneView.debugOptions = [SCNDebugOptions.showPhysicsShapes]
     }
     
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
-
         session.pause()
     }
 
-    // MARK: - Session management
-    
-    /// Creates a new AR configuration to run on the `session`.
+//  SESSION FUNCTIONS
     func resetTracking() {
         virtualObjectInteraction.selectedObject = nil
-        
         let configuration = ARWorldTrackingConfiguration()
         configuration.planeDetection = [.horizontal, .vertical]
-        if #available(iOS 12.0, *) {
-            configuration.environmentTexturing = .automatic
-        }
+//        if #available(iOS 12.0, *) {
+//            configuration.environmentTexturing = .automatic
+//        }
         session.run(configuration, options: [.resetTracking, .removeExistingAnchors])
 
         statusViewController.scheduleMessage("FIND A SURFACE TO PLACE AN OBJECT", inSeconds: 7.5, messageType: .planeEstimation)
-        //changing UI stuff
+        
         plane_locked = false
         plane_added = false
-        //planeLockBtn.isEnabled = true
         planeLockBtn.isHidden = false
         addObjectButton.isHidden = true
     }
 
     // MARK: - Focus Square
-
     func updateFocusSquare(isObjectVisible: Bool) {
         if isObjectVisible || coachingOverlay.isActive {
             focusSquare.hide()
