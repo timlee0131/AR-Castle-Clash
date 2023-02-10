@@ -90,7 +90,7 @@ extension ViewController: VirtualObjectSelectionViewControllerDelegate {
     func setTransform(of virtualObject: VirtualObject, with result: ARRaycastResult) {
 //        let translation = simd_make_float3(result.worldTransform.translation.x,result.worldTransform.translation.y+0.5,result.worldTransform.translation.z)
         virtualObject.simdWorldTransform = result.worldTransform
-        let newTransform = virtualObject.worldPosition//virtualObject.worldPosition.y + 0.1
+        _ = virtualObject.worldPosition//virtualObject.worldPosition.y + 0.1
         //virtualObject.transform
 //        virtualObject.simdWorldTransform.translation = translation
     }

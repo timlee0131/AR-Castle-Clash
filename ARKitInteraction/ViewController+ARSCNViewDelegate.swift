@@ -94,12 +94,12 @@ extension ViewController: ARSCNViewDelegate, ARSessionDelegate {
         
         DispatchQueue.main.async { [self] in
             if thumbTip != nil && indexTip != nil {
-                var distance:CGFloat = hypot(thumbTip!.x - indexTip!.x, thumbTip!.y - indexTip!.y)
+                let distance:CGFloat = hypot(thumbTip!.x - indexTip!.x, thumbTip!.y - indexTip!.y)
                 
                 //if pinch
                 if distance < 0.10 {
                     indexTip!.y = 1-indexTip!.y
-                    var newPoint:CGPoint = CGPoint(x:indexTip!.y,y:indexTip!.x)
+                    let newPoint:CGPoint = CGPoint(x:indexTip!.y,y:indexTip!.x)
                     let point = VNImagePointForNormalizedPoint(newPoint, Int(sceneView.frame.size.width), Int(sceneView.frame.size.height))
                     //if moving object with pinch
                     if lastObjectPinched == nil{
