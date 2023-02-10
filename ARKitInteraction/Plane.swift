@@ -75,7 +75,8 @@ class Plane: SCNNode {
         // Use color and blend mode to make planes stand out.
         guard let material = meshNode.geometry?.firstMaterial
             else { fatalError("ARSCNPlaneGeometry always has one material") }
-        material.diffuse.contents = UIImage(named:"chaotic_grass.png")
+//        material.diffuse.contents = UIImage(named:"chaotic_grass.png")
+        material.diffuse.contents =  UIColor(white: 1.0, alpha: 0.85)
         material.diffuse.wrapS = SCNWrapMode.repeat
         material.diffuse.wrapT = SCNWrapMode.repeat
     }
